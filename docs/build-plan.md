@@ -112,8 +112,29 @@ card (no broken iframe) + sweep reports DEAD and flags `needsReview`; restoring
 clears it; verify gate green; zero console errors. archive.org alternates as the
 actual fallback media are S5; nightly sweep + needsReview clear-workflow are S6.
 
+## Aurora redesign track (inserted before S5)
+
+A design pass retro-PRD'd from the "World Music Map Concepts" bundle, concept 01
+"Aurora" (chosen). Full spec + locked decisions + design tokens:
+[`prd/aurora-redesign.md`](prd/aurora-redesign.md). Sequenced before S5 for the
+visual + influence work; the mini-player (A6) is gated on S5's audio.
+
+| # | Slice | Goal | Gate |
+|---|---|---|---|
+| A1 | Aurora shell + type | Fonts + atmosphere + logo + filter-panel skin; real count. No data. | None. Next up. [`prd/a1-aurora-shell.md`](prd/a1-aurora-shell.md) |
+| A2 | Genre families: colors + markers + legend | Family color map; glowing colored markers + pulse; legend card. | A1 + curated color map |
+| A3 | Detail panel upgrade | Eyebrow + coords + cover-art + favorite/share + Play CTA + connected-sounds slot | A1 |
+| A4 | InfluenceLink model + curation | `InfluenceLink` schema + migration + curated links (pulls the v2 model into v1) | Prisma migration |
+| A5 | Influence arcs + Connected sounds | Animated arcs on a MapLibre-synced overlay + panel list | A4 + A2 + A3 |
+| A6 | Persistent mini-player | Global now-playing + queue + scrubber + decorative EQ | **Gated on S5** |
+
+Decisions locked: keep MapTiler + Aurora overlay (not the dotted-SVG map); pull
+full InfluenceLink into v1; mini-player gates on S5 archive.org audio; ship as
+ordered slices.
+
 ## Recommended next
 
-**S5 (archive.org enrichment)** - native CC/PD player as a real alternate on
-marquee locales, populating the fallback slot S4 built. Then S6 (curation +
-~20-locale catalog). Each slice auto-deploys on push to `main`.
+**A1 (Aurora shell + type)** - the first design slice, no data changes, ships on
+its own. Then A2-A5, then **S5 (archive.org enrichment)** (native CC/PD player +
+the controllable audio the A6 mini-player needs), then A6, then S6 (~20-locale
+catalog) + S7 polish. Each slice auto-deploys on push to `main`.
