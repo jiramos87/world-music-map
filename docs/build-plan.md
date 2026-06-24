@@ -123,7 +123,7 @@ visual + influence work; the mini-player (A6) is gated on S5's audio.
 |---|---|---|---|
 | A1 | Aurora shell + type ✅ DONE | Fonts + atmosphere + logo + filter-panel skin; real count. No data. | DONE (local, verified). [`prd/a1-aurora-shell.md`](prd/a1-aurora-shell.md) |
 | A2 | Genre families: colors + markers + legend ✅ DONE | Family color map; glowing colored markers + pulse; legend card. | DONE (local, verified). [`prd/a2-genre-families.md`](prd/a2-genre-families.md) |
-| A3 | Detail panel upgrade | Eyebrow + coords + cover-art + favorite/share + Play CTA + connected-sounds slot | A1 |
+| A3 | Detail panel upgrade ✅ DONE | Eyebrow + coords + framed media + favorite/share + colored chips + connected-sounds slot | DONE (local, verified). [`prd/a3-detail-panel.md`](prd/a3-detail-panel.md) |
 | A4 | InfluenceLink model + curation | `InfluenceLink` schema + migration + curated links (pulls the v2 model into v1) | Prisma migration |
 | A5 | Influence arcs + Connected sounds | Animated arcs on a MapLibre-synced overlay + panel list | A4 + A2 + A3 |
 | A6 | Persistent mini-player | Global now-playing + queue + scrubber + decorative EQ | **Gated on S5** |
@@ -139,9 +139,10 @@ edits to existing selectors but silently drops NEWLY ADDED ones (new classes,
 
 ## Recommended next
 
-**A3 (detail panel upgrade)** - the next design slice. A1 (shell + type) and A2
-(genre families: colored markers + legend) are done and verified (local commits).
-Then A4-A5, then **S5
+**A4 (InfluenceLink model + curation)** - the next slice; adds the `InfluenceLink`
+Prisma model + migration + curated links (pulls the v2 model into v1). A1 (shell),
+A2 (genre families) and A3 (detail panel) are done and verified (local commits).
+Then A5, then **S5
 (archive.org enrichment)** (native CC/PD player + the controllable audio the A6
 mini-player needs), then A6, then S6 (~20-locale catalog) + S7 polish. Each slice
 auto-deploys on push to `main`.

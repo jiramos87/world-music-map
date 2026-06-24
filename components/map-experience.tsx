@@ -12,11 +12,17 @@ import { legendFamilies } from "@/lib/genre-families";
 export function MapExperience({
   locations,
   mapTilerKey,
+  initialPlace,
 }: {
   locations: LocaleWithMedia[];
   mapTilerKey: string | null;
+  initialPlace: string | null;
 }) {
-  const [selected, setSelected] = useState<LocaleWithMedia | null>(null);
+  // Open the ?place=<slug> deep link (resolved server-side) on first render, so
+  // the shared locale is already open and matches the SSR HTML.
+  const [selected, setSelected] = useState<LocaleWithMedia | null>(
+    () => locations.find((l) => l.slug === initialPlace) ?? null,
+  );
   const [activeGenres, setActiveGenres] = useState<Set<string>>(new Set());
   const [activeEras, setActiveEras] = useState<Set<string>>(new Set());
 
