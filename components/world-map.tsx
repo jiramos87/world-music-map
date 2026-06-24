@@ -19,13 +19,16 @@ export function WorldMap({
   locations,
   onSelect,
   mapTilerKey,
+  dimmedIds,
 }: {
   locations: LocaleWithMedia[];
   onSelect: (locale: LocaleWithMedia) => void;
   mapTilerKey: string | null;
+  dimmedIds: Set<string>;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
+  const markersRef = useRef<{ id: string; el: HTMLElement }[]>([]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -49,6 +52,7 @@ export function WorldMap({
     const resizeObserver = new ResizeObserver(() => map.resize());
     resizeObserver.observe(containerRef.current);
 
+    const markers: { id: string; el: HTMLElement }[] = [];
     for (const locale of locations) {
       const el = document.createElement("button");
       el.type = "button";
@@ -58,14 +62,27 @@ export function WorldMap({
       new maplibregl.Marker({ element: el })
         .setLngLat([locale.lng, locale.lat])
         .addTo(map);
+      markers.push({ id: locale.id, el });
     }
+    markersRef.current = markers;
 
     return () => {
       resizeObserver.disconnect();
       map.remove();
       mapRef.current = null;
+      markersRef.current = [];
     };
   }, [locations, onSelect, mapTilerKey]);
+
+  // Toggle the dim class as filters change, without recreating the map.
+  useEffect(() => {
+    for (const marker of markersRef.current) {
+      marker.el.classList.toggle(
+        "wmm-marker--dimmed",
+        dimmedIds.has(marker.id),
+      );
+    }
+  }, [dimmedIds]);
 
   return <div ref={containerRef} className="h-full w-full bg-neutral-900" />;
 }

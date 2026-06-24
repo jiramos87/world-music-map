@@ -21,12 +21,26 @@ body {
     0 0 0 2px rgba(34, 211, 238, 0.35),
     0 1px 4px rgba(0, 0, 0, 0.6);
   cursor: pointer;
-  transition: transform 120ms ease;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease;
 }
 .wmm-marker:hover,
 .wmm-marker:focus-visible {
   transform: scale(1.25);
   outline: none;
+}
+
+/* Non-matching locale while a facet filter is active: emphasis stays on the
+   matches, but the place keeps its spot on the map. */
+.wmm-marker--dimmed {
+  opacity: 0.25;
+  transform: scale(0.7);
+}
+.wmm-marker--dimmed:hover,
+.wmm-marker--dimmed:focus-visible {
+  opacity: 0.6;
+  transform: scale(0.9);
 }
 
 /* maplibre overlay controls/attribution, tuned for the dark canvas. */
