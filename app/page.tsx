@@ -8,5 +8,10 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const locations = await getLocations();
-  return <MapExperience locations={locations} />;
+  // Read the tile key server-side (regular env, not NEXT_PUBLIC_) and hand it to
+  // the client map. It still reaches the browser to fetch tiles; MapTiler's
+  // domain restriction is what protects it. Falls back to the keyless demo
+  // style when unset. See PRD §5 (Map tiles).
+  const mapTilerKey = process.env.MAPTILER_KEY ?? null;
+  return <MapExperience locations={locations} mapTilerKey={mapTilerKey} />;
 }
