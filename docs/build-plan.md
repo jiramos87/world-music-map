@@ -38,7 +38,7 @@ starts. "PRD ref" points at the v1 acceptance bullet it satisfies.
 | S3 | **Filters: genre + era** ✅ DONE | Facet filters over the markers | DONE: facet chips emphasize matching locales + dim the rest (§3 filters). See "S3 - Filters" below. | Filter state kept local (URL-sync deferred); facets derived from the loaded locales. |
 | S4 | **Dead-embed fallback** ✅ DONE | Never a raw broken iframe | DONE: runtime `onError` -> "temporarily unavailable" card + Watch-on-YouTube; server oEmbed sweep flags `needsReview` (§3 dead-embed, §4 no-dead-embeds). See "S4 - Dead-embed" below + [`prd/s4-dead-embed.md`](prd/s4-dead-embed.md). | Detection locked: runtime IFrame Player API + server sweep (grilled). |
 | S5 | **archive.org enrichment** | Native CC/PD player on marquee locales | Recording plays via HTML5 player with CC/PD attribution (§3 archive.org) | Opportunistic, additive; sourcing + attribution at curation. |
-| S6 | **Curation + catalog-coverage** | Reach the v1 success measure | 20 locales, each >=1 verified-playable item + genre/era + attribution; fallback exercised once in QA (§10) | Agent-driven Prisma curation scripts (MCP/SSH). `needsReview` list/clear workflow. |
+| S6 | **Curation + catalog-coverage** ✅ DONE | Reach the v1 success measure | DONE: 17 locales, each a genre/era + attribution + 1 oEmbed-verified-playable official/label embed; health-check all ok. See [`prd/s6-catalog.md`](prd/s6-catalog.md). | 3 more held for official sources (Tehran/Istanbul/Port of Spain). |
 | S7 | **States + a11y + perf** | Production polish | Loading/empty/error states designed; keyboard-operable drawer + labels (AA); lazy embeds; Lighthouse 90+ (§4) | Empty/loading states partially stubbed in S0. |
 
 ## S1 - Deploy (DONE, LIVE 2026-06-24)
@@ -139,10 +139,15 @@ edits to existing selectors but silently drops NEWLY ADDED ones (new classes,
 
 ## Recommended next
 
-**A4 (InfluenceLink model + curation)** - the next slice; adds the `InfluenceLink`
-Prisma model + migration + curated links (pulls the v2 model into v1). A1 (shell),
-A2 (genre families) and A3 (detail panel) are done and verified (local commits).
-Then A5, then **S5
-(archive.org enrichment)** (native CC/PD player + the controllable audio the A6
-mini-player needs), then A6, then S6 (~20-locale catalog) + S7 polish. Each slice
-auto-deploys on push to `main`.
+**A4 (InfluenceLink model + curation)** - the next slice; now that the catalog is
+17 locales, influence arcs (A4/A5) can land dense. S6 grew the catalog from 3 to
+17 oEmbed-verified locales (Aurora shell/genre-families/detail-panel done too).
+Remaining order: **A4 -> A5 -> S5 (archive.org) -> A6 (mini-player) -> S7
+(polish)**. Each slice auto-deploys on push to `main`.
+
+Notes / S7 candidates surfaced by S6 scale: the genre filter now lists ~24 genres
+(consider filter-by-family or a collapsible/scrollable control); the legend lists
+16 families (fits desktop, fine). Prod-seed: the WMM Vercel build does NOT seed
+(seed decoupled at S1), so pushing S6 needs a one-off prod re-seed of the 17
+locales (re-add `tsx prisma/seed.ts` to the build for one deploy, or run once
+against the prod DB) - handle at push time.
