@@ -147,7 +147,11 @@ Remaining order: **A4 -> A5 -> S5 (archive.org) -> A6 (mini-player) -> S7
 
 Notes / S7 candidates surfaced by S6 scale: the genre filter now lists ~24 genres
 (consider filter-by-family or a collapsible/scrollable control); the legend lists
-16 families (fits desktop, fine). Prod-seed: the WMM Vercel build does NOT seed
-(seed decoupled at S1), so pushing S6 needs a one-off prod re-seed of the 17
-locales (re-add `tsx prisma/seed.ts` to the build for one deploy, or run once
-against the prod DB) - handle at push time.
+16 families (fits desktop, fine). Prod-seed: the seed is now **re-coupled into the
+Vercel build** (`vercel.json`: generate -> migrate -> `tsx prisma/seed.ts` ->
+build). It is idempotent (upsert + media replace) and runs in the build env with
+the prod `DATABASE_URL` (never pulled to localhost), so a content push now seeds
+prod automatically. Tradeoff: a deploy fails if the prod DB is unreachable at build
+time (acceptable, fail-safe). WMM has no Railway container of its own (Vercel app,
+Railway only hosts its sibling DB), so the build is the right reseed surface, not
+`railway ssh`.
