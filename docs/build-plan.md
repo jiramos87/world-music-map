@@ -52,10 +52,12 @@ one secret):
   one-liner inside the portfolio container (`railway ssh`), sibling to the prod
   `railway` DB.
 - Vercel project `world-music-map` (`prj_xAzfplqyxIpkrTbfpihvclCU6Ipi`, team
-  jiramos87s-projects) created via REST + linked to the private repo; build
-  command set to `pnpm exec prisma migrate deploy && pnpm exec tsx
-  prisma/seed.ts && next build`, so schema + seed run **inside the Vercel build**
-  against the prod DB.
+  jiramos87s-projects) created via REST + linked to the repo. Build command is
+  pinned in committed `vercel.json`: `pnpm exec prisma generate && pnpm exec
+  prisma migrate deploy && next build`. `prisma generate` is explicit because
+  Vercel restores the install cache and skips `postinstall` (a build that omits
+  it fails with a missing `lib/generated/prisma/client`). Schema migrates on
+  every deploy; the DB was seeded once (data persists), seed runs on demand.
 - `world-music-map.javierramos.dev` attached via REST (Vercel-managed DNS,
   auto-verified + SSL).
 - `DATABASE_URL` (Railway public proxy URL, db `world_music_map`) set directly
@@ -64,11 +66,16 @@ one secret):
 - `main` pushed -> git-connected production deploy -> READY -> verified live.
 - Full deploy capability recorded in personal memory `deploy-automation-local`.
 
-Note: seed runs on every deploy. It is idempotent and only touches the 3 seed
-slugs' media, so later-curated locales survive. Decouple seed-from-build at S6.
+## S2 - MapTiler basemap (code merged + live; awaiting key)
+
+Code is live on the demo-tile fallback. The map reads `MAPTILER_KEY` server-side
+and passes it to the client map (the key must reach the browser to fetch tiles,
+so it is protected by a MapTiler domain restriction, not by hiding it); unset, it
+falls back to the keyless demo style. Style: `dataviz-dark`. Done when
+`MAPTILER_KEY` (domain-restricted to the prod domain + localhost) is set in the
+Vercel env and the live map renders the dark basemap.
 
 ## Recommended next
 
-**S2 (MapTiler swap)** - replace the keyless demo style with real on-brand dark
-tiles (domain-restricted MapTiler key in server env). Or jump to **S3 (filters)**
-for a visible feature. Each slice now auto-deploys on push to `main`.
+Finish **S2** (set `MAPTILER_KEY`), then **S3 (filters)** for the next visible
+feature. Each slice auto-deploys on push to `main`.
