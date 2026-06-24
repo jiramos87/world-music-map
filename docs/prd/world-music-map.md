@@ -76,7 +76,7 @@ mobile-first. No login; everything is public read.
 | Playback (enrich) | archive.org CC / PD recordings via native HTML5 player, marquee locales, opportunistic | additive (no fallback needed) | free; must attribute CC / PD | runtime player; curation sources + attributes |
 | Database | reuse Railway Postgres SERVER as a separate `world_music_map` database, own Prisma schema + migrations | n/a | no extra managed-DB cost; isolated from the portfolio DB | runtime reads (RSC); migrations + seeds at curation |
 | API / app | single Next.js (App Router) app, Prisma reads in RSC; no separate Nest service in v1 | add Nest later only if a public write path appears | reuse house-stack tooling | runtime |
-| Hosting | own Vercel project, subdomain (proposed: `music.javierramos.dev`) | n/a | a second Vercel project is free | deploy |
+| Hosting | own Vercel project, subdomain `world-music-map.javierramos.dev` | n/a | a second Vercel project is free; Vercel-managed DNS + auto SSL | deploy |
 | Influence-link data | deferred to v2 (no v1 sourcing) | n/a | n/a | n/a in v1 |
 | Metrics | none in v1; success = catalog-coverage milestone | n/a | none | n/a |
 
@@ -147,7 +147,7 @@ in v1.
 - 2026-06-24: archive.org = opportunistic enrichment on marquee locales, not required per locale - scoped.
 - 2026-06-24: Stack = single Next.js + Prisma, no Nest in v1; revised from the draft "Next + Nest" because curation is agent-driven with no public writes - simplified.
 - 2026-06-24: Database = reuse the Railway Postgres SERVER as a separate `world_music_map` database (own schema + migrations), not shared tables, to protect the live portfolio - decided.
-- 2026-06-24: Hosting = own Vercel project + subdomain (proposed music.javierramos.dev); standalone repo retained - decided.
+- 2026-06-24: Hosting = own Vercel project + subdomain `world-music-map.javierramos.dev` (Vercel-managed DNS + auto SSL); standalone repo retained - decided.
 - 2026-06-24: Curation = agent + MCP/SSH + Prisma scripts, no admin UI - decided.
 - 2026-06-24: Mobile-first responsive; per-item attribution always visible - decided.
 - 2026-06-24: Success = catalog-coverage milestone, no engagement instrumentation in v1 - decided.
