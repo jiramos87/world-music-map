@@ -1,11 +1,15 @@
 "use client";
 
 /**
- * Compact facet bar over the map (PRD §3 filters). Genre + era chips toggle the
- * active facets; matching locales stay bright while the rest dim on the map.
- * Facet values are derived from the loaded locales, so the bar grows with the
- * catalog instead of hardcoding a list.
+ * Compact facet bar over the map (PRD §3 filters), styled as the Aurora glass
+ * panel (PRD a1-aurora-shell). Genre + era chips toggle the active facets;
+ * matching locales stay bright while the rest dim on the map. Facet values are
+ * derived from the loaded locales, so the bar grows with the catalog.
  */
+
+const GENRE_ACCENT = "#67e8f9";
+const ERA_ACCENT = "#7c8cf8";
+
 export function FilterBar({
   genres,
   eras,
@@ -32,11 +36,12 @@ export function FilterBar({
   if (genres.length === 0 && eras.length === 0) return null;
 
   return (
-    <div className="pointer-events-auto mt-3 w-fit max-w-[min(90vw,40rem)] rounded-xl border border-white/10 bg-neutral-950/80 px-3 py-2.5 backdrop-blur">
+    <div className="pointer-events-auto mt-4 w-fit max-w-[min(90vw,40rem)] rounded-[14px] border border-white/[0.09] bg-[rgba(13,17,28,0.66)] px-3.5 py-3 shadow-[0_18px_50px_rgba(0,0,0,0.5)] backdrop-blur-[18px]">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         {genres.length > 0 ? (
           <FacetGroup
             label="Genre"
+            accent={GENRE_ACCENT}
             values={genres}
             active={activeGenres}
             onToggle={onToggleGenre}
@@ -50,6 +55,7 @@ export function FilterBar({
         {eras.length > 0 ? (
           <FacetGroup
             label="Era"
+            accent={ERA_ACCENT}
             values={eras}
             active={activeEras}
             onToggle={onToggleEra}
@@ -60,15 +66,15 @@ export function FilterBar({
           <button
             type="button"
             onClick={onClear}
-            className="ml-auto rounded-full px-2 py-1 text-xs text-white/55 transition hover:text-white"
+            className="ml-auto rounded-full px-2 py-1 font-mono text-[11px] uppercase tracking-wide text-white/55 transition hover:text-white"
           >
-            Clear
+            Reset
           </button>
         ) : null}
       </div>
 
       {hasActive ? (
-        <p className="mt-2 text-[11px] text-white/50">
+        <p className="mt-2 font-mono text-[11px] text-white/50">
           Showing {shownCount} of {totalCount} places
         </p>
       ) : null}
@@ -78,18 +84,23 @@ export function FilterBar({
 
 function FacetGroup({
   label,
+  accent,
   values,
   active,
   onToggle,
 }: {
   label: string;
+  accent: string;
   values: string[];
   active: Set<string>;
   onToggle: (value: string) => void;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-[10px] font-medium uppercase tracking-wide text-white/40">
+      <span
+        className="font-mono text-[10px] uppercase tracking-[0.14em]"
+        style={{ color: accent }}
+      >
         {label}
       </span>
       {values.map((value) => {
@@ -100,13 +111,25 @@ function FacetGroup({
             type="button"
             aria-pressed={isActive}
             onClick={() => onToggle(value)}
-            className={`rounded-full border px-2.5 py-1 text-xs transition ${
+            className="rounded-full border px-2.5 py-1 text-xs transition"
+            style={
               isActive
-                ? "border-cyan-300 bg-cyan-300 font-medium text-neutral-950"
-                : "border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white"
-            }`}
+                ? {
+                    color: "#06121a",
+                    background: accent,
+                    borderColor: accent,
+                    fontWeight: 500,
+                    boxShadow: `0 0 16px ${accent}73`,
+                  }
+                : {
+                    color: "rgba(255,255,255,0.7)",
+                    background: "rgba(255,255,255,0.05)",
+                    borderColor: "rgba(255,255,255,0.08)",
+                  }
+            }
           >
             {value}
+            {isActive ? " ✓" : ""}
           </button>
         );
       })}

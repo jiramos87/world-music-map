@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Aurora type system: wire the next/font CSS vars to Tailwind font tokens so
+   font-display / font-sans / font-mono resolve to Space Grotesk / IBM Plex. */
+@theme inline {
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-ibm-sans);
+  --font-mono: var(--font-ibm-mono);
+}
+
 :root {
   color-scheme: dark;
 }

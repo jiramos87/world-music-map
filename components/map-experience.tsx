@@ -58,13 +58,52 @@ export function MapExperience({
         dimmedIds={dimmedIds}
       />
 
+      {/* Aurora atmosphere over the (still visible) MapTiler basemap: a subtle
+          tint, a bottom glow, and an edge vignette. Non-interactive. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          background:
+            "radial-gradient(140% 120% at 60% 8%, rgba(16,24,43,0.5) 0%, rgba(10,14,26,0.3) 42%, rgba(6,7,13,0.55) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 50% 120%, rgba(103,232,249,0.10), transparent 60%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{ boxShadow: "inset 0 0 240px 60px rgba(3,4,8,0.9)" }}
+      />
+
       <header className="pointer-events-none absolute left-0 top-0 z-10 flex flex-col p-4 sm:p-6">
-        <h1 className="text-lg font-semibold tracking-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-          World Music Map
-        </h1>
-        <p className="mt-1 max-w-xs text-xs text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-          Click a marker to hear the place.
-        </p>
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-[9px] shadow-[0_0_22px_rgba(103,232,249,0.5)]"
+            style={{ background: "linear-gradient(135deg,#67e8f9,#7c8cf8)" }}
+          >
+            <span className="text-[17px] leading-none text-[#06121a]">♪</span>
+          </div>
+          <div>
+            <h1 className="font-display text-xl font-semibold tracking-tight text-[#f3f6fc] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+              World Music Map
+            </h1>
+            <p className="mt-1 max-w-xs text-xs text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+              Click a marker to hear the place
+              {locations.length > 0
+                ? ` · ${locations.length} sound${
+                    locations.length === 1 ? "" : "s"
+                  } mapped`
+                : ""}
+            </p>
+          </div>
+        </div>
 
         <FilterBar
           genres={genres}
