@@ -19,11 +19,11 @@ small, well-curated set of places beats a thin global veneer.
 
 ## Status
 
-v1 in progress, built in public. Live today: the interactive map, a side drawer
-with playable embeds, and honest per-item attribution, reading from its own
-database. Currently a handful of marquee locales, growing toward ~20. On the
-roadmap: a domain-restricted MapTiler basemap, genre/era filters, a real
-dead-embed fallback, archive.org recordings, and the full curated catalog. See
+v1 in progress, built in public. Live today: an interactive MapTiler dark map, a
+side drawer with playable embeds, and honest per-item attribution, reading from
+its own database. Currently a handful of marquee locales, growing toward ~20. On
+the roadmap: genre/era filters, a real dead-embed fallback, archive.org
+recordings, and the full curated catalog. See
 [`docs/build-plan.md`](docs/build-plan.md) for the slice-by-slice plan and
 [`docs/prd/world-music-map.md`](docs/prd/world-music-map.md) for the v1 spec.
 

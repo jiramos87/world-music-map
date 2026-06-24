@@ -66,16 +66,16 @@ one secret):
 - `main` pushed -> git-connected production deploy -> READY -> verified live.
 - Full deploy capability recorded in personal memory `deploy-automation-local`.
 
-## S2 - MapTiler basemap (code merged + live; awaiting key)
+## S2 - MapTiler basemap (DONE, live)
 
-Code is live on the demo-tile fallback. The map reads `MAPTILER_KEY` server-side
-and passes it to the client map (the key must reach the browser to fetch tiles,
-so it is protected by a MapTiler domain restriction, not by hiding it); unset, it
-falls back to the keyless demo style. Style: `dataviz-dark`. Done when
-`MAPTILER_KEY` (domain-restricted to the prod domain + localhost) is set in the
-Vercel env and the live map renders the dark basemap.
+The map reads `MAPTILER_KEY` server-side and passes it to the client map (the key
+must reach the browser to fetch tiles, so it is protected by a MapTiler domain
+restriction, not by hiding it); unset, it falls back to the keyless demo style.
+Style: `dataviz-dark`. Live and verified on the prod domain: the dark basemap
+renders and the cyan markers + drawer sit on top. Key is domain-restricted to
+the prod domain + `localhost:3102`.
 
 ## Recommended next
 
-Finish **S2** (set `MAPTILER_KEY`), then **S3 (filters)** for the next visible
-feature. Each slice auto-deploys on push to `main`.
+**S3 (genre/era filters)** for the next visible feature, then S4 (dead-embed
+fallback). Each slice auto-deploys on push to `main`.
