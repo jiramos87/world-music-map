@@ -1,6 +1,7 @@
 "use client";
 
 import type { LocaleWithMedia } from "@/lib/locations";
+import { YouTubeEmbed } from "@/components/youtube-embed";
 
 /** Slides in over the map (map stays visible). Skeleton: blurb + facets +
  *  YouTube embeds with always-visible attribution. */
@@ -76,16 +77,10 @@ export function LocaleDrawer({
                 locale.media.map((item) => (
                   <figure key={item.id} className="flex flex-col gap-2">
                     {item.provider === "YOUTUBE" && item.providerId ? (
-                      <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
-                        <iframe
-                          className="h-full w-full"
-                          src={`https://www.youtube-nocookie.com/embed/${item.providerId}`}
-                          title={item.title}
-                          loading="lazy"
-                          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
-                      </div>
+                      <YouTubeEmbed
+                        videoId={item.providerId}
+                        title={item.title}
+                      />
                     ) : (
                       <div className="flex aspect-video w-full items-center justify-center rounded-lg border border-white/10 bg-white/5 text-sm text-white/55">
                         Unsupported media

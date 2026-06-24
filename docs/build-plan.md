@@ -36,7 +36,7 @@ starts. "PRD ref" points at the v1 acceptance bullet it satisfies.
 | S1 | **Deploy / infra** ✅ DONE | Close end-to-end to the live subdomain | LIVE: `world-music-map.javierramos.dev` serves the skeleton over HTTPS, seeded from the prod DB (§9) | Done 2026-06-24. See "S1 - Deploy (DONE)" below. |
 | S2 | **Map: MapTiler swap** | Real basemap, on-brand dark style | Tiles render on the live domain; key never client-exposed beyond domain lock (§5 Map tiles) | MapTiler free-tier key (domain-restricted, server env). Protomaps/PMTiles self-host as the quota fallback. |
 | S3 | **Filters: genre + era** ✅ DONE | Facet filters over the markers | DONE: facet chips emphasize matching locales + dim the rest (§3 filters). See "S3 - Filters" below. | Filter state kept local (URL-sync deferred); facets derived from the loaded locales. |
-| S4 | **Dead-embed fallback** | Never a raw broken iframe | Unavailable -> "temporarily unavailable" card -> archive.org alternate -> `needsReview` flag (§3 dead-embed, §4 no-dead-embeds) | Hardest slice: reliable YouTube embed-failure detection. Grill must lock the detection mechanism. |
+| S4 | **Dead-embed fallback** ✅ DONE | Never a raw broken iframe | DONE: runtime `onError` -> "temporarily unavailable" card + Watch-on-YouTube; server oEmbed sweep flags `needsReview` (§3 dead-embed, §4 no-dead-embeds). See "S4 - Dead-embed" below + [`prd/s4-dead-embed.md`](prd/s4-dead-embed.md). | Detection locked: runtime IFrame Player API + server sweep (grilled). |
 | S5 | **archive.org enrichment** | Native CC/PD player on marquee locales | Recording plays via HTML5 player with CC/PD attribution (§3 archive.org) | Opportunistic, additive; sourcing + attribution at curation. |
 | S6 | **Curation + catalog-coverage** | Reach the v1 success measure | 20 locales, each >=1 verified-playable item + genre/era + attribution; fallback exercised once in QA (§10) | Agent-driven Prisma curation scripts (MCP/SSH). `needsReview` list/clear workflow. |
 | S7 | **States + a11y + perf** | Production polish | Loading/empty/error states designed; keyboard-operable drawer + labels (AA); lazy embeds; Lighthouse 90+ (§4) | Empty/loading states partially stubbed in S0. |
@@ -90,8 +90,30 @@ rebuilds the map. Selection stays independent of filtering (a dimmed marker stil
 opens its drawer). Verified: facet logic, mobile wrap, drawer regression, verify
 gate green, zero console errors.
 
+## S4 - Dead-embed fallback (DONE)
+
+Never a raw broken iframe (PRD §4). Two complementary layers, locked by a grill
+(see [`prd/s4-dead-embed.md`](prd/s4-dead-embed.md)):
+
+- **Runtime (viewer-facing):** the drawer renders YouTube through the IFrame
+  Player API (`lib/youtube-api.ts` + `components/youtube-embed.tsx`), not a plain
+  iframe (a plain embed gives no failure signal). `onError` (deleted / private /
+  embedding-disabled / region-blocked, as the viewer sees it) swaps the player
+  for a "temporarily unavailable" card with a working "Watch on YouTube" link.
+  The player mounts into a manually-created child node so YouTube replacing it
+  with an iframe never clashes with React; `youtube-nocookie` host is preserved.
+- **Curation (server-side):** `pnpm media:health-check` (`scripts/health-check.ts`)
+  asks YouTube oEmbed whether each video is still available and flips
+  `needsReview`. The write stays server-side (no public writes). Complements the
+  runtime layer (oEmbed can't see embedding-disabled / region cases).
+
+Verified end-to-end: working video plays (regression); a broken id -> fallback
+card (no broken iframe) + sweep reports DEAD and flags `needsReview`; restoring
+clears it; verify gate green; zero console errors. archive.org alternates as the
+actual fallback media are S5; nightly sweep + needsReview clear-workflow are S6.
+
 ## Recommended next
 
-**S4 (dead-embed fallback)** - the hardest slice; the grill must lock the
-YouTube embed-failure detection mechanism before implementing. Each slice
-auto-deploys on push to `main`.
+**S5 (archive.org enrichment)** - native CC/PD player as a real alternate on
+marquee locales, populating the fallback slot S4 built. Then S6 (curation +
+~20-locale catalog). Each slice auto-deploys on push to `main`.
