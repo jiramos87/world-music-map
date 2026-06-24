@@ -1,0 +1,10 @@
+# Single-package repo. This file exists only to allowlist dependency build
+# scripts (pnpm 11 blocks them by default). Mirrors the portfolio convention.
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+  "@tailwindcss/oxide": true

@@ -1,0 +1,64 @@
+// World Music Map — Prisma schema (its own `world_music_map` database).
+// Skeleton models: Location + MediaItem. InfluenceLink lands with its v2 slice.
+// See docs/prd/world-music-map.md §6.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../lib/generated/prisma"
+  runtime      = "nodejs"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MediaType {
+  VIDEO
+  AUDIO
+}
+
+enum MediaProvider {
+  YOUTUBE
+  ARCHIVE
+  FILE
+}
+
+/// A curated place on the map. Genre + era are the v1 filter facets.
+model Location {
+  id        String      @id @default(cuid())
+  slug      String      @unique
+  name      String // display name, e.g. "Bamako, Mali"
+  country   String
+  region    String?
+  lat       Float
+  lng       Float
+  blurb     String
+  genre     String[] // curated facet
+  era       String[] // curated facet
+  media     MediaItem[]
+  sortOrder Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+/// One playable item for a locale. `needsReview` is set when an embed is
+/// detected unplayable at runtime; curators list and clear it.
+model MediaItem {
+  id          String        @id @default(cuid())
+  location    Location      @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId  String
+  type        MediaType     @default(VIDEO)
+  provider    MediaProvider @default(YOUTUBE)
+  providerId  String? // YouTube video ID
+  url         String? // archive.org / file URL
+  title       String
+  attribution String
+  license     String?
+  needsReview Boolean       @default(false)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([locationId])
+}
