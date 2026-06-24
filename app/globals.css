@@ -17,21 +17,50 @@ body {
   height: 100%;
 }
 
-/* Map marker (DOM element handed to maplibre Marker). */
+/* Map marker (DOM element handed to maplibre Marker). Colored by its locale's
+   primary genre family via --marker-color (PRD a2-genre-families). */
+@keyframes pulsering {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
 .wmm-marker {
-  width: 16px;
-  height: 16px;
+  --marker-color: #22d3ee;
+  position: relative;
+  width: 14px;
+  height: 14px;
   padding: 0;
   border-radius: 9999px;
-  background: #22d3ee;
-  border: 2px solid #0a0a0a;
+  background: var(--marker-color);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 0 0 2px rgba(34, 211, 238, 0.35),
+    0 0 7px var(--marker-color),
     0 1px 4px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition:
     transform 120ms ease,
     opacity 120ms ease;
+}
+/* Animated pulse ring behind the dot. */
+.wmm-marker::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--marker-color);
+  opacity: 0.5;
+  transform-origin: center;
+  animation: pulsering 2.6s ease-out infinite;
+  pointer-events: none;
 }
 .wmm-marker:hover,
 .wmm-marker:focus-visible {
@@ -39,8 +68,35 @@ body {
   outline: none;
 }
 
+/* Place name beside the selected marker. */
+.wmm-marker__label {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f3f6fc;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+/* Selected locale: enlarge + reveal the label; wins over the dim state. */
+.wmm-marker--selected {
+  transform: scale(1.3);
+  opacity: 1;
+  z-index: 2;
+}
+.wmm-marker--selected .wmm-marker__label {
+  opacity: 1;
+}
+
 /* Non-matching locale while a facet filter is active: emphasis stays on the
-   matches, but the place keeps its spot on the map. */
+   matches, but the place keeps its (colored) spot on the map. */
 .wmm-marker--dimmed {
   opacity: 0.25;
   transform: scale(0.7);

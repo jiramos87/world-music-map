@@ -121,8 +121,8 @@ visual + influence work; the mini-player (A6) is gated on S5's audio.
 
 | # | Slice | Goal | Gate |
 |---|---|---|---|
-| A1 | Aurora shell + type | Fonts + atmosphere + logo + filter-panel skin; real count. No data. | None. Next up. [`prd/a1-aurora-shell.md`](prd/a1-aurora-shell.md) |
-| A2 | Genre families: colors + markers + legend | Family color map; glowing colored markers + pulse; legend card. | A1 + curated color map |
+| A1 | Aurora shell + type ✅ DONE | Fonts + atmosphere + logo + filter-panel skin; real count. No data. | DONE (local, verified). [`prd/a1-aurora-shell.md`](prd/a1-aurora-shell.md) |
+| A2 | Genre families: colors + markers + legend ✅ DONE | Family color map; glowing colored markers + pulse; legend card. | DONE (local, verified). [`prd/a2-genre-families.md`](prd/a2-genre-families.md) |
 | A3 | Detail panel upgrade | Eyebrow + coords + cover-art + favorite/share + Play CTA + connected-sounds slot | A1 |
 | A4 | InfluenceLink model + curation | `InfluenceLink` schema + migration + curated links (pulls the v2 model into v1) | Prisma migration |
 | A5 | Influence arcs + Connected sounds | Animated arcs on a MapLibre-synced overlay + panel list | A4 + A2 + A3 |
@@ -132,9 +132,16 @@ Decisions locked: keep MapTiler + Aurora overlay (not the dotted-SVG map); pull
 full InfluenceLink into v1; mini-player gates on S5 archive.org audio; ship as
 ordered slices.
 
+Gotcha (A2): the Turbopack dev server can serve a stale `globals.css` that keeps
+edits to existing selectors but silently drops NEWLY ADDED ones (new classes,
+`::before`, `@keyframes`). `pnpm build` is always correct; the fix is
+`rm -rf .next` + restart the dev server (a plain restart is not enough).
+
 ## Recommended next
 
-**A1 (Aurora shell + type)** - the first design slice, no data changes, ships on
-its own. Then A2-A5, then **S5 (archive.org enrichment)** (native CC/PD player +
-the controllable audio the A6 mini-player needs), then A6, then S6 (~20-locale
-catalog) + S7 polish. Each slice auto-deploys on push to `main`.
+**A3 (detail panel upgrade)** - the next design slice. A1 (shell + type) and A2
+(genre families: colored markers + legend) are done and verified (local commits).
+Then A4-A5, then **S5
+(archive.org enrichment)** (native CC/PD player + the controllable audio the A6
+mini-player needs), then A6, then S6 (~20-locale catalog) + S7 polish. Each slice
+auto-deploys on push to `main`.

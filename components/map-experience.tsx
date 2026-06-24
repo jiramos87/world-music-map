@@ -5,6 +5,8 @@ import type { LocaleWithMedia } from "@/lib/locations";
 import { WorldMap } from "@/components/world-map";
 import { LocaleDrawer } from "@/components/locale-drawer";
 import { FilterBar } from "@/components/filter-bar";
+import { GenreLegend } from "@/components/genre-legend";
+import { legendFamilies } from "@/lib/genre-families";
 
 /** Holds the selected-locale state and stitches the map + drawer together. */
 export function MapExperience({
@@ -49,6 +51,9 @@ export function MapExperience({
 
   const shownCount = locations.length - dimmedIds.size;
 
+  // Primary genre families present in the catalog, for the legend.
+  const families = useMemo(() => legendFamilies(locations), [locations]);
+
   return (
     <main className="fixed inset-0 overflow-hidden">
       <WorldMap
@@ -56,6 +61,7 @@ export function MapExperience({
         onSelect={setSelected}
         mapTilerKey={mapTilerKey}
         dimmedIds={dimmedIds}
+        selectedId={selected?.id ?? null}
       />
 
       {/* Aurora atmosphere over the (still visible) MapTiler basemap: a subtle
@@ -120,6 +126,8 @@ export function MapExperience({
           totalCount={locations.length}
         />
       </header>
+
+      <GenreLegend families={families} />
 
       <LocaleDrawer locale={selected} onClose={() => setSelected(null)} />
     </main>

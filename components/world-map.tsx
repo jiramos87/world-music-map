@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { LocaleWithMedia } from "@/lib/locations";
+import { primaryFamily } from "@/lib/genre-families";
 
 // On-brand dark vector basemap from MapTiler when a key is present; the keyless
 // MapLibre demo style is the dev/no-key fallback. See PRD §5 (Map tiles).
@@ -20,11 +21,13 @@ export function WorldMap({
   onSelect,
   mapTilerKey,
   dimmedIds,
+  selectedId,
 }: {
   locations: LocaleWithMedia[];
   onSelect: (locale: LocaleWithMedia) => void;
   mapTilerKey: string | null;
   dimmedIds: Set<string>;
+  selectedId: string | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -57,8 +60,16 @@ export function WorldMap({
       const el = document.createElement("button");
       el.type = "button";
       el.className = "wmm-marker";
+      el.style.setProperty("--marker-color", primaryFamily(locale.genre).color);
       el.setAttribute("aria-label", locale.name);
       el.addEventListener("click", () => onSelect(locale));
+
+      // Name label, revealed when this marker is the selected one.
+      const label = document.createElement("span");
+      label.className = "wmm-marker__label";
+      label.textContent = locale.name;
+      el.appendChild(label);
+
       new maplibregl.Marker({ element: el })
         .setLngLat([locale.lng, locale.lat])
         .addTo(map);
@@ -83,6 +94,16 @@ export function WorldMap({
       );
     }
   }, [dimmedIds]);
+
+  // Highlight the selected marker (enlarge + reveal its label).
+  useEffect(() => {
+    for (const marker of markersRef.current) {
+      marker.el.classList.toggle(
+        "wmm-marker--selected",
+        marker.id === selectedId,
+      );
+    }
+  }, [selectedId]);
 
   return <div ref={containerRef} className="h-full w-full bg-neutral-900" />;
 }
