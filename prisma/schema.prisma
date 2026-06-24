@@ -37,9 +37,28 @@ model Location {
   genre     String[] // curated facet
   era       String[] // curated facet
   media     MediaItem[]
+  fromLinks InfluenceLink[] @relation("from")
+  toLinks   InfluenceLink[] @relation("to")
   sortOrder Int         @default(0)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+}
+
+/// A curated musical-influence connection between two locales (directed
+/// from -> to). Renders as a map arc + a "Connected sounds" panel entry (A5).
+model InfluenceLink {
+  id           String   @id @default(cuid())
+  fromId       String
+  toId         String
+  from         Location @relation("from", fields: [fromId], references: [id], onDelete: Cascade)
+  to           Location @relation("to", fields: [toId], references: [id], onDelete: Cascade)
+  relationship String // short curated note
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@unique([fromId, toId])
+  @@index([fromId])
+  @@index([toId])
 }
 
 /// One playable item for a locale. `needsReview` is set when an embed is

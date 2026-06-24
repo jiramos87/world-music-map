@@ -124,7 +124,7 @@ visual + influence work; the mini-player (A6) is gated on S5's audio.
 | A1 | Aurora shell + type ✅ DONE | Fonts + atmosphere + logo + filter-panel skin; real count. No data. | DONE (local, verified). [`prd/a1-aurora-shell.md`](prd/a1-aurora-shell.md) |
 | A2 | Genre families: colors + markers + legend ✅ DONE | Family color map; glowing colored markers + pulse; legend card. | DONE (local, verified). [`prd/a2-genre-families.md`](prd/a2-genre-families.md) |
 | A3 | Detail panel upgrade ✅ DONE | Eyebrow + coords + framed media + favorite/share + colored chips + connected-sounds slot | DONE (local, verified). [`prd/a3-detail-panel.md`](prd/a3-detail-panel.md) |
-| A4 | InfluenceLink model + curation | `InfluenceLink` schema + migration + curated links (pulls the v2 model into v1) | Prisma migration |
+| A4 | InfluenceLink model + curation ✅ DONE | `InfluenceLink` schema + migration + 9 curated links (pulls the v2 model into v1) | DONE (local, verified). [`prd/a4-influence-model.md`](prd/a4-influence-model.md) |
 | A5 | Influence arcs + Connected sounds | Animated arcs on a MapLibre-synced overlay + panel list | A4 + A2 + A3 |
 | A6 | Persistent mini-player | Global now-playing + queue + scrubber + decorative EQ | **Gated on S5** |
 
@@ -139,11 +139,11 @@ edits to existing selectors but silently drops NEWLY ADDED ones (new classes,
 
 ## Recommended next
 
-**A4 (InfluenceLink model + curation)** - the next slice; now that the catalog is
-17 locales, influence arcs (A4/A5) can land dense. S6 grew the catalog from 3 to
-17 oEmbed-verified locales (Aurora shell/genre-families/detail-panel done too).
-Remaining order: **A4 -> A5 -> S5 (archive.org) -> A6 (mini-player) -> S7
-(polish)**. Each slice auto-deploys on push to `main`.
+**A5 (influence arcs + Connected sounds)** - the next slice; render the 9 A4 links
+as animated arcs on a MapLibre-synced overlay + the panel's Connected-sounds list.
+S6 (17-locale catalog) + A1/A2/A3 (Aurora) + A4 (InfluenceLink model + 9 links) are
+done. Remaining order: **A5 -> S5 (archive.org) -> A6 (mini-player) -> S7
+(polish)**. Each slice auto-deploys on push to `main` (build runs migrate + seed).
 
 Notes / S7 candidates surfaced by S6 scale: the genre filter now lists ~24 genres
 (consider filter-by-family or a collapsible/scrollable control); the legend lists

@@ -375,7 +375,58 @@ const locations: SeedLocation[] = [
   },
 ];
 
+// Curated musical-influence connections (directed from -> to). Server/agent
+// curation only; broadly-accepted lineages framed as connections (PRD a4).
+const influenceLinks: { from: string; to: string; relationship: string }[] = [
+  {
+    from: "bamako-mali",
+    to: "havana-cuba",
+    relationship: "West African rhythm carried across the Atlantic",
+  },
+  {
+    from: "bamako-mali",
+    to: "new-orleans-usa",
+    relationship: "Mande string music in the deep roots of the blues",
+  },
+  {
+    from: "havana-cuba",
+    to: "new-orleans-usa",
+    relationship: "the Cuban habanera, the Spanish tinge in early jazz",
+  },
+  {
+    from: "seville-spain",
+    to: "havana-cuba",
+    relationship: "cantes de ida y vuelta, flamenco's round trip",
+  },
+  {
+    from: "lagos-nigeria",
+    to: "salvador-brazil",
+    relationship: "Yoruba rhythm and faith across the Atlantic",
+  },
+  {
+    from: "lisbon-portugal",
+    to: "mindelo-cape-verde",
+    relationship: "two songs of saudade, fado and morna",
+  },
+  {
+    from: "kingston-jamaica",
+    to: "lagos-nigeria",
+    relationship: "reggae and Afrobeat in pan-African dialogue",
+  },
+  {
+    from: "havana-cuba",
+    to: "kingston-jamaica",
+    relationship: "Cuban son in the roots of mento and ska",
+  },
+  {
+    from: "addis-ababa-ethiopia",
+    to: "new-orleans-usa",
+    relationship: "Ethio-jazz answering American jazz",
+  },
+];
+
 async function main() {
+  const idBySlug: Record<string, string> = {};
   for (let i = 0; i < locations.length; i++) {
     const { media, ...data } = locations[i];
     const location = await prisma.location.upsert({
@@ -383,6 +434,7 @@ async function main() {
       update: { ...data, sortOrder: i },
       create: { ...data, sortOrder: i },
     });
+    idBySlug[data.slug] = location.id;
 
     // Replace media so re-seeding stays idempotent.
     await prisma.mediaItem.deleteMany({ where: { locationId: location.id } });
@@ -400,6 +452,22 @@ async function main() {
     });
     console.log(`  ✓ ${data.name} (${media.length} item)`);
   }
+
+  // Influence links (replace for idempotency).
+  await prisma.influenceLink.deleteMany({});
+  for (let i = 0; i < influenceLinks.length; i++) {
+    const link = influenceLinks[i];
+    const fromId = idBySlug[link.from];
+    const toId = idBySlug[link.to];
+    if (!fromId || !toId) {
+      console.warn(`  ! skip link ${link.from} -> ${link.to} (missing locale)`);
+      continue;
+    }
+    await prisma.influenceLink.create({
+      data: { fromId, toId, relationship: link.relationship, sortOrder: i },
+    });
+  }
+  console.log(`  ✓ ${influenceLinks.length} influence links`);
 }
 
 main()
