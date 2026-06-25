@@ -150,6 +150,29 @@ the travel animation to a steady glowing line. Spec:
 arcs with real geometry + 0 console errors, arcs re-project on zoom, Havana shows
 its 4 links with correct direction, navigation + spotlight work; verify gate green.
 
+## Catalog: Cueca brava + zamacueca (2026-06-25)
+
+Added **Santiago, Chile** (cueca brava) and **Lima, Peru** (zamacueca) with two
+influence arcs: **Seville -> Santiago** ("the Andalusian fandango and its Moorish
+canto a la rueda") and **Lima -> Santiago** ("the Peruvian zamacueca, carried
+south in the 1820s as la chilena"). Catalog is now **19 locales / 11 links**; a new
+`cueca` genre family (`#ef4444`) covers cueca / cueca brava / zamacueca / marinera.
+
+Both embeds are oEmbed-verified official **Topic** channels (label catalogs):
+Los Chileneros - "La Quintrala" (`3wDtCSGUFu4`) and Eva Ayllón - "Una Larga Noche
+(Zamacueca)" (`SzRD1czrZmE`, title literally tagged Zamacueca). Health-check: 19 ok.
+
+Research verdict (vs. the "spanish / arabic / african / mapuche" hypothesis): the
+Spanish base and the **Arabic-Andalusian** canto a la rueda (Samuel Claro, the most
+cited theory for the core structure, and the defining trait of cueca *brava*) are
+solid; the **African** element is real but secondary, arriving via the Afro-Peruvian
+**zamacueca**; the **Mapuche** claim is a genuine but minority/contested theory
+(Kilapán 1995). The missing piece in the hypothesis was **Peru/Lima** as the
+documented conduit (~1824), which is why Lima was added rather than drawing a direct
+African arc. Sources: es.wikipedia "Origen de la cueca", en.wikipedia "Zamacueca",
+Memoria Chilena (cueca brava), MusicaPopular.cl (Los Chileneros). Mapuche is
+described in the Santiago blurb (no external arc: indigenous-internal to Chile).
+
 ## Recommended next
 
 **S5 (archive.org enrichment)** - native CC/PD HTML5 audio on marquee locales, with

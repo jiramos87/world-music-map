@@ -31,6 +31,7 @@ const FAMILIES = {
   carnatic: { key: "carnatic", label: "Carnatic", color: "#e879f9" },
   gamelan: { key: "gamelan", label: "Gamelan", color: "#818cf8" },
   tarab: { key: "tarab", label: "Tarab", color: "#fcd34d" },
+  cueca: { key: "cueca", label: "Cueca", color: "#ef4444" },
 } satisfies Record<string, GenreFamily>;
 
 const FALLBACK: GenreFamily = {
@@ -69,6 +70,11 @@ const GENRE_TO_FAMILY: Record<string, keyof typeof FAMILIES> = {
   carnatic: "carnatic",
   gamelan: "gamelan",
   tarab: "tarab",
+  "cueca brava": "cueca",
+  cueca: "cueca",
+  zamacueca: "cueca",
+  marinera: "cueca",
+  chilena: "cueca",
 };
 
 export function familyForGenre(genre: string): GenreFamily {

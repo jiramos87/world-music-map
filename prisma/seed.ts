@@ -373,6 +373,46 @@ const locations: SeedLocation[] = [
       },
     ],
   },
+  {
+    slug: "lima-peru",
+    name: "Lima, Peru",
+    country: "Peru",
+    region: "South America",
+    lat: -12.0464,
+    lng: -77.0428,
+    blurb:
+      "Birthplace of the zamacueca, the 19th century coastal dance that fused Andalusian Spanish song with Afro-Peruvian rhythm and the cajón. It spread down the Pacific in the 1820s and became Chile's cueca, and at home it lives on as the marinera limeña.",
+    genre: ["Zamacueca", "Marinera"],
+    era: ["19th century"],
+    media: [
+      {
+        title: 'Eva Ayllón - "Una Larga Noche" (Zamacueca)',
+        providerId: "SzRD1czrZmE",
+        attribution: "Eva Ayllón - Topic (official)",
+        license: "YouTube Standard License",
+      },
+    ],
+  },
+  {
+    slug: "santiago-chile",
+    name: "Santiago, Chile",
+    country: "Chile",
+    region: "South America",
+    lat: -33.4489,
+    lng: -70.6693,
+    blurb:
+      "Home of the cueca brava, the urban cueca that Los Chileneros and Nano Núñez sang a la rueda in the chinganas and casas de gastar near the Estación Central. It descends from the Peruvian zamacueca, carrying an Andalusian Spanish and Afro-Peruvian inheritance, with a contested claim to Mapuche roots.",
+    genre: ["Cueca brava", "Cueca"],
+    era: ["20th century"],
+    media: [
+      {
+        title: 'Los Chileneros - "La Quintrala"',
+        providerId: "3wDtCSGUFu4",
+        attribution: "Los Chileneros - Topic (official)",
+        license: "YouTube Standard License",
+      },
+    ],
+  },
 ];
 
 // Curated musical-influence connections (directed from -> to). Server/agent
@@ -422,6 +462,16 @@ const influenceLinks: { from: string; to: string; relationship: string }[] = [
     from: "addis-ababa-ethiopia",
     to: "new-orleans-usa",
     relationship: "Ethio-jazz answering American jazz",
+  },
+  {
+    from: "seville-spain",
+    to: "santiago-chile",
+    relationship: "the Andalusian fandango and its Moorish canto a la rueda",
+  },
+  {
+    from: "lima-peru",
+    to: "santiago-chile",
+    relationship: "the Peruvian zamacueca, carried south in the 1820s as la chilena",
   },
 ];
 
