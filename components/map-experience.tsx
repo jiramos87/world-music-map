@@ -2,19 +2,22 @@
 
 import { useCallback, useMemo, useState } from "react";
 import type { LocaleWithMedia } from "@/lib/locations";
+import type { InfluenceLinkData } from "@/lib/influence";
 import { WorldMap } from "@/components/world-map";
-import { LocaleDrawer } from "@/components/locale-drawer";
+import { LocaleDrawer, type Connection } from "@/components/locale-drawer";
 import { FilterBar } from "@/components/filter-bar";
 import { GenreLegend } from "@/components/genre-legend";
-import { legendFamilies } from "@/lib/genre-families";
+import { legendFamilies, primaryFamily } from "@/lib/genre-families";
 
 /** Holds the selected-locale state and stitches the map + drawer together. */
 export function MapExperience({
   locations,
+  influenceLinks,
   mapTilerKey,
   initialPlace,
 }: {
   locations: LocaleWithMedia[];
+  influenceLinks: InfluenceLinkData[];
   mapTilerKey: string | null;
   initialPlace: string | null;
 }) {
@@ -60,10 +63,47 @@ export function MapExperience({
   // Primary genre families present in the catalog, for the legend.
   const families = useMemo(() => legendFamilies(locations), [locations]);
 
+  // Influence links touching the selected locale, as drawer entries. Direction:
+  // outgoing = this place influenced the other; incoming = it was shaped by it.
+  // The dot color is the connected locale's family, matching its marker.
+  const connections = useMemo<Connection[]>(() => {
+    if (!selected) return [];
+    const out: Connection[] = [];
+    for (const link of influenceLinks) {
+      if (link.from.slug === selected.slug) {
+        out.push({
+          slug: link.to.slug,
+          name: link.to.name,
+          relationship: link.relationship,
+          outgoing: true,
+          color: primaryFamily(link.to.genre).color,
+        });
+      } else if (link.to.slug === selected.slug) {
+        out.push({
+          slug: link.from.slug,
+          name: link.from.name,
+          relationship: link.relationship,
+          outgoing: false,
+          color: primaryFamily(link.from.genre).color,
+        });
+      }
+    }
+    return out;
+  }, [selected, influenceLinks]);
+
+  const selectBySlug = useCallback(
+    (slug: string) => {
+      const target = locations.find((l) => l.slug === slug);
+      if (target) setSelected(target);
+    },
+    [locations],
+  );
+
   return (
     <main className="fixed inset-0 overflow-hidden">
       <WorldMap
         locations={locations}
+        influenceLinks={influenceLinks}
         onSelect={setSelected}
         mapTilerKey={mapTilerKey}
         dimmedIds={dimmedIds}
@@ -135,7 +175,12 @@ export function MapExperience({
 
       <GenreLegend families={families} />
 
-      <LocaleDrawer locale={selected} onClose={() => setSelected(null)} />
+      <LocaleDrawer
+        locale={selected}
+        connections={connections}
+        onSelectSlug={selectBySlug}
+        onClose={() => setSelected(null)}
+      />
     </main>
   );
 }

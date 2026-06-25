@@ -12,8 +12,8 @@ export async function getInfluenceLinks() {
     select: {
       id: true,
       relationship: true,
-      from: { select: { slug: true, name: true, lat: true, lng: true, genre: true } },
-      to: { select: { slug: true, name: true, lat: true, lng: true, genre: true } },
+      from: { select: { id: true, slug: true, name: true, lat: true, lng: true, genre: true } },
+      to: { select: { id: true, slug: true, name: true, lat: true, lng: true, genre: true } },
     },
   });
 }

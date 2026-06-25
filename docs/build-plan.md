@@ -125,7 +125,7 @@ visual + influence work; the mini-player (A6) is gated on S5's audio.
 | A2 | Genre families: colors + markers + legend ✅ DONE | Family color map; glowing colored markers + pulse; legend card. | DONE (local, verified). [`prd/a2-genre-families.md`](prd/a2-genre-families.md) |
 | A3 | Detail panel upgrade ✅ DONE | Eyebrow + coords + framed media + favorite/share + colored chips + connected-sounds slot | DONE (local, verified). [`prd/a3-detail-panel.md`](prd/a3-detail-panel.md) |
 | A4 | InfluenceLink model + curation ✅ DONE | `InfluenceLink` schema + migration + 9 curated links (pulls the v2 model into v1) | DONE (local, verified). [`prd/a4-influence-model.md`](prd/a4-influence-model.md) |
-| A5 | Influence arcs + Connected sounds | Animated arcs on a MapLibre-synced overlay + panel list | A4 + A2 + A3 |
+| A5 | Influence arcs + Connected sounds ✅ DONE | Animated arcs on a MapLibre-synced overlay + panel list | DONE (local, verified). [`prd/a5-influence-arcs.md`](prd/a5-influence-arcs.md) |
 | A6 | Persistent mini-player | Global now-playing + queue + scrubber + decorative EQ | **Gated on S5** |
 
 Decisions locked: keep MapTiler + Aurora overlay (not the dotted-SVG map); pull
@@ -137,13 +137,26 @@ edits to existing selectors but silently drops NEWLY ADDED ones (new classes,
 `::before`, `@keyframes`). `pnpm build` is always correct; the fix is
 `rm -rf .next` + restart the dev server (a plain restart is not enough).
 
+## A5 - Influence arcs + Connected sounds (DONE)
+
+The 9 A4 links now render as animated arcs on a MapLibre-synced SVG overlay (each
+link = a faint base line + a CSS "comet" dash traveling along it, colored by the
+source family) plus a "Connected sounds" list in the detail panel. Arc geometry is
+re-projected on every map `render` event so the curves stay pinned through pan/zoom;
+selecting a locale spotlights its arcs and mutes the rest, mirroring the panel list;
+clicking a Connected-sounds entry opens that locale. `prefers-reduced-motion` drops
+the travel animation to a steady glowing line. Spec:
+[`prd/a5-influence-arcs.md`](prd/a5-influence-arcs.md). Verified in the browser: 9
+arcs with real geometry + 0 console errors, arcs re-project on zoom, Havana shows
+its 4 links with correct direction, navigation + spotlight work; verify gate green.
+
 ## Recommended next
 
-**A5 (influence arcs + Connected sounds)** - the next slice; render the 9 A4 links
-as animated arcs on a MapLibre-synced overlay + the panel's Connected-sounds list.
-S6 (17-locale catalog) + A1/A2/A3 (Aurora) + A4 (InfluenceLink model + 9 links) are
-done. Remaining order: **A5 -> S5 (archive.org) -> A6 (mini-player) -> S7
-(polish)**. Each slice auto-deploys on push to `main` (build runs migrate + seed).
+**S5 (archive.org enrichment)** - native CC/PD HTML5 audio on marquee locales, with
+attribution. This unlocks A6 (the persistent mini-player is gated on S5's audio, to
+avoid the hidden-YouTube ToS gray area). S6 (17-locale catalog) + A1-A5 (Aurora +
+influence web) are done. Remaining order: **S5 (archive.org) -> A6 (mini-player) ->
+S7 (polish)**. Each slice auto-deploys on push to `main` (build runs migrate + seed).
 
 Notes / S7 candidates surfaced by S6 scale: the genre filter now lists ~24 genres
 (consider filter-by-family or a collapsible/scrollable control); the legend lists

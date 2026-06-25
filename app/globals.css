@@ -107,6 +107,60 @@ body {
   transform: scale(0.9);
 }
 
+/* Influence arcs (PRD a5). Each link = a faint base line + a traveling "comet"
+   dash, both colored by the source locale's family. Geometry is set imperatively
+   each frame; these rules own only the styling + the travel animation. */
+@keyframes wmm-arc-travel {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.wmm-arc {
+  transition: opacity 220ms ease;
+}
+.wmm-arc__line {
+  fill: none;
+  stroke-width: 1.1;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+}
+.wmm-arc__comet {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  /* pathLength is normalized to 100, so a 5/95 dash is one short segment that
+     travels the whole arc regardless of its on-screen length. */
+  stroke-dasharray: 5 95;
+  stroke-dashoffset: 100;
+  animation: wmm-arc-travel 3.4s linear infinite;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+/* Selection spotlight: the touching arcs brighten, the rest recede. */
+.wmm-arc--muted {
+  opacity: 0.12;
+}
+.wmm-arc--active .wmm-arc__line {
+  stroke-opacity: 0.55;
+}
+.wmm-arc--active .wmm-arc__comet {
+  stroke-width: 2.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wmm-marker::before {
+    animation: none;
+  }
+  /* No travel; show the connection as a steady glowing line instead. */
+  .wmm-arc__comet {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-opacity: 0.55;
+  }
+}
+
 /* maplibre overlay controls/attribution, tuned for the dark canvas. */
 .maplibregl-ctrl-attrib {
   font-size: 10px;

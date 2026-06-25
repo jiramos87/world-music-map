@@ -7,14 +7,28 @@ import { familyForGenre, primaryFamily } from "@/lib/genre-families";
 import { formatCoord } from "@/lib/locale-format";
 import { useFavorite } from "@/lib/use-favorite";
 
-/** The Aurora detail panel (PRD a3-detail-panel). Slides in over the map; keeps
- *  the S4 dead-embed fallback. Favorite is localStorage-only; share copies a
- *  ?place=<slug> deep link. */
+/** A musical-influence connection from the selected locale to another, as shown
+ *  in the drawer's "Connected sounds" list (PRD a5). */
+export type Connection = {
+  slug: string;
+  name: string;
+  relationship: string;
+  outgoing: boolean; // true = this place influenced the other
+  color: string; // the connected locale's family color
+};
+
+/** The Aurora detail panel (PRD a3-detail-panel + a5 connected sounds). Slides
+ *  in over the map; keeps the S4 dead-embed fallback. Favorite is
+ *  localStorage-only; share copies a ?place=<slug> deep link. */
 export function LocaleDrawer({
   locale,
+  connections,
+  onSelectSlug,
   onClose,
 }: {
   locale: LocaleWithMedia | null;
+  connections: Connection[];
+  onSelectSlug: (slug: string) => void;
   onClose: () => void;
 }) {
   const open = locale !== null;
@@ -163,7 +177,46 @@ export function LocaleDrawer({
               </div>
             ) : null}
 
-            {/* Connected sounds: A5 renders the influence list here. */}
+            {connections.length > 0 ? (
+              <div className="flex flex-col gap-2">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+                  Connected sounds
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  {connections.map((c) => (
+                    <button
+                      key={`${c.outgoing ? "o" : "i"}-${c.slug}`}
+                      type="button"
+                      onClick={() => onSelectSlug(c.slug)}
+                      className="flex w-full items-start gap-2.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2.5 text-left transition hover:bg-white/[0.07]"
+                    >
+                      <span
+                        aria-hidden
+                        className="mt-1 h-2 w-2 flex-none rounded-full"
+                        style={{
+                          background: c.color,
+                          boxShadow: `0 0 8px ${c.color}`,
+                        }}
+                      />
+                      <span className="min-w-0">
+                        <span className="flex items-center gap-1.5 text-sm text-white/90">
+                          <span
+                            aria-hidden
+                            className="font-mono text-[11px] text-white/40"
+                          >
+                            {c.outgoing ? "→" : "←"}
+                          </span>
+                          {c.name.split(",")[0].trim()}
+                        </span>
+                        <span className="mt-0.5 block text-xs leading-snug text-white/55">
+                          {c.relationship}
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div className="mt-auto flex gap-2 pt-4">
               <button

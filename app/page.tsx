@@ -1,4 +1,5 @@
 import { getLocations } from "@/lib/locations";
+import { getInfluenceLinks } from "@/lib/influence";
 import { MapExperience } from "@/components/map-experience";
 
 // Read fresh from the DB per request so agent-curated locales appear without a
@@ -11,7 +12,10 @@ export default async function Home({
 }: {
   searchParams: Promise<{ place?: string | string[] }>;
 }) {
-  const locations = await getLocations();
+  const [locations, influenceLinks] = await Promise.all([
+    getLocations(),
+    getInfluenceLinks(),
+  ]);
   // Read the tile key server-side (regular env, not NEXT_PUBLIC_) and hand it to
   // the client map. It still reaches the browser to fetch tiles; MapTiler's
   // domain restriction is what protects it. Falls back to the keyless demo
@@ -24,6 +28,7 @@ export default async function Home({
   return (
     <MapExperience
       locations={locations}
+      influenceLinks={influenceLinks}
       mapTilerKey={mapTilerKey}
       initialPlace={initialPlace}
     />
