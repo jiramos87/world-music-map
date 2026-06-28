@@ -413,6 +413,46 @@ const locations: SeedLocation[] = [
       },
     ],
   },
+  {
+    slug: "barranquilla-colombia",
+    name: "Barranquilla, Colombia",
+    country: "Colombia",
+    region: "South America",
+    lat: 10.9685,
+    lng: -74.7813,
+    blurb:
+      "On Colombia's Caribbean coast by the Magdalena River that cradled the cumbia: African drums, the Indigenous Kogui gaita flute, and Spanish coplas braided into one courtship rhythm, carried to the world from the Barranquilla Carnival.",
+    genre: ["Cumbia", "Gaita"],
+    era: ["Traditional"],
+    media: [
+      {
+        title: 'Totó la Momposina - "Yo Me Llamo Cumbia"',
+        providerId: "_sOav6GrLr8",
+        attribution: "Totó La Momposina - Topic (official)",
+        license: "YouTube Standard License",
+      },
+    ],
+  },
+  {
+    slug: "pucallpa-peru",
+    name: "Pucallpa, Peru",
+    country: "Peru",
+    region: "South America",
+    lat: -8.3791,
+    lng: -74.5539,
+    blurb:
+      "In the Peruvian Amazon, where the oil-boom towns turned Colombian cumbia electric: Juaneco y su Combo wired it to Andean huayno melodies, jungle rhythm, and the wah-wah of psychedelic surf guitar, the sound called chicha that later swept Lima's migrant barrios.",
+    genre: ["Chicha", "Cumbia amazónica"],
+    era: ["20th century"],
+    media: [
+      {
+        title: 'Juaneco y su Combo - "El Agua del Higuerón"',
+        providerId: "nOcrqx3-_wY",
+        attribution: "Juaneco y Su Combo - Topic (official)",
+        license: "YouTube Standard License",
+      },
+    ],
+  },
 ];
 
 // Curated musical-influence connections (directed from -> to). Server/agent
@@ -472,6 +512,26 @@ const influenceLinks: { from: string; to: string; relationship: string }[] = [
     from: "lima-peru",
     to: "santiago-chile",
     relationship: "the Peruvian zamacueca, carried south in the 1820s as la chilena",
+  },
+  {
+    from: "seville-spain",
+    to: "lima-peru",
+    relationship: "Andalusian song at the root of the zamacueca",
+  },
+  {
+    from: "seville-spain",
+    to: "barranquilla-colombia",
+    relationship: "Spanish coplas and the fandango's courtship",
+  },
+  {
+    from: "lagos-nigeria",
+    to: "barranquilla-colombia",
+    relationship: "West African drums at the heart of the cumbia",
+  },
+  {
+    from: "barranquilla-colombia",
+    to: "pucallpa-peru",
+    relationship: "Colombian cumbia electrified into Amazonian chicha",
   },
 ];
 

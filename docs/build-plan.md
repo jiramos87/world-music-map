@@ -173,6 +173,34 @@ African arc. Sources: es.wikipedia "Origen de la cueca", en.wikipedia "Zamacueca
 Memoria Chilena (cueca brava), MusicaPopular.cl (Los Chileneros). Mapuche is
 described in the Santiago blurb (no external arc: indigenous-internal to Chile).
 
+## Catalog: Cumbia + chicha (2026-06-25)
+
+Added **Barranquilla, Colombia** (cumbia) and **Pucallpa, Peru** (cumbia chicha /
+Amazonian) plus the requested **Seville -> Lima** arc. Catalog is now **21 locales /
+15 links**; a new `cumbia` genre family (`#8b5cf6`) covers cumbia / chicha / gaita /
+cumbia amazónica. Four new arcs:
+
+- **Seville -> Lima** - "Andalusian song at the root of the zamacueca" (the deeper
+  Spanish thread the cueca research surfaced).
+- **Seville -> Barranquilla** - "Spanish coplas and the fandango's courtship".
+- **Lagos -> Barranquilla** - "West African drums at the heart of the cumbia"
+  (Lagos is the map's West African Atlantic-diaspora node; the African drum element
+  is direct and definitional in cumbia, so it gets an arc, unlike the cueca where
+  the African input arrived via the Afro-Peruvian zamacueca conduit).
+- **Barranquilla -> Pucallpa** - "Colombian cumbia electrified into Amazonian
+  chicha".
+
+Cumbia = Afro (drums) + Indigenous (Kogui gaita flute) + Spanish (coplas/fandango),
+cradled on the Magdalena/Caribbean coast; the Indigenous gaita is internal to
+Colombia (blurb, no external arc). Chicha = Colombian cumbia + Andean huayno +
+Amazonian + psychedelic surf rock, born in the Amazon oil towns (Juaneco y su
+Combo, Pucallpa), later Lima's migrant music (blurb). Embeds are oEmbed-verified
+official Topic channels: Totó la Momposina - "Yo Me Llamo Cumbia" (`_sOav6GrLr8`)
+and Juaneco y su Combo - "El Agua del Higuerón" (`nOcrqx3-_wY`). Health-check 21 ok.
+Sources: en.wikipedia "Cumbia (Colombia)" + "Peruvian cumbia", TeachRock (cumbia
+roots), Bandcamp Daily (chicha). **S7 note:** legend now lists 20 families and the
+genre filter ~30 genres - the filter-by-family / collapsible control is now due.
+
 ## Recommended next
 
 **S5 (archive.org enrichment)** - native CC/PD HTML5 audio on marquee locales, with
