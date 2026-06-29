@@ -9,6 +9,15 @@ Per-slice feature PRDs land in `docs/prd/` as each slice starts.
 Each slice runs the kit loop: `/prd` -> `/prd-grill-me` -> `/implement` ->
 `/verify` -> `/reconcile`. Skeleton was the foundation (Explore + scaffold).
 
+Catalog growth has its own reusable skill: **`/add-locale`**
+(`.claude/commands/add-locale.md`) standardises adding an entry + media + influence
+arcs - research-first, oEmbed-verified embeds, a structured curation spec in
+`docs/curation/{slug}.md` (`.claude/templates/curation-template.md`), then seed +
+verify + ship. The DB already models this: `Location` (entry) + `MediaItem` +
+`InfluenceLink` (directed `from -> to` arc; direction = influences / influenced-by,
+with a free-text `relationship` note - no typed kind, by decision). Worked example:
+[`curation/barranquilla-colombia.md`](curation/barranquilla-colombia.md).
+
 ## S0 - Skeleton (DONE, pushed; `main` @ b842d28)
 
 End-to-end walking skeleton, verified locally (desktop + mobile, all 3 embeds
