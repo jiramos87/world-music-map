@@ -141,7 +141,7 @@ const locations: SeedLocation[] = [
     lat: -22.9068,
     lng: -43.1729,
     blurb:
-      "Samba was born on the hillside morros and in Mangueira, the pulse of Carnival and the malandro's lament.",
+      "Samba was born on the hillside morros and in Mangueira, the pulse of Carnival and the malandro's lament. A generation later in Ipanema, João Gilberto and Tom Jobim cooled that samba with jazz harmony into bossa nova, the quiet new wave that went on to conquer the world.",
     genre: ["Samba", "Bossa nova"],
     era: ["20th century"],
     media: [
@@ -149,6 +149,12 @@ const locations: SeedLocation[] = [
         title: 'Cartola - "As Rosas Não Falam"',
         providerId: "pBWg7LGETL0",
         attribution: "Cartola (Vevo)",
+        license: "YouTube Standard License",
+      },
+      {
+        title: 'João Gilberto - "Chega de Saudade"',
+        providerId: "B1VI8SQiw3E",
+        attribution: "João Gilberto - Topic (official)",
         license: "YouTube Standard License",
       },
     ],
@@ -532,6 +538,16 @@ const influenceLinks: { from: string; to: string; relationship: string }[] = [
     from: "barranquilla-colombia",
     to: "pucallpa-peru",
     relationship: "Colombian cumbia electrified into Amazonian chicha",
+  },
+  {
+    from: "new-orleans-usa",
+    to: "rio-de-janeiro-brazil",
+    relationship: "American cool jazz, woven into samba as bossa nova",
+  },
+  {
+    from: "salvador-brazil",
+    to: "rio-de-janeiro-brazil",
+    relationship: "Bahian samba-de-roda, carried up to Rio's morros",
   },
 ];
 

@@ -210,6 +210,20 @@ Sources: en.wikipedia "Cumbia (Colombia)" + "Peruvian cumbia", TeachRock (cumbia
 roots), Bandcamp Daily (chicha). **S7 note:** legend now lists 20 families and the
 genre filter ~30 genres - the filter-by-family / collapsible control is now due.
 
+## Catalog: bossa nova on Rio (2026-06-25)
+
+First run of the `/add-locale` flow. **Expanded** the existing Rio node (no new
+locale) with the bossa nova dimension: added a 2nd media item (João Gilberto -
+"Chega de Saudade", `B1VI8SQiw3E`, Topic), reframed the blurb (samba + bossa nova),
+and drew two arcs into Rio - **New Orleans -> Rio** ("American cool jazz, woven into
+samba as bossa nova") and **Salvador -> Rio** ("Bahian samba-de-roda, carried up to
+Rio's morros"). Links **15 -> 17**; locale count stays **21**; bossa nova folds into
+the samba family (no new color; marker stays samba pink). Research verdict vs. the
+"bebop + samba(Salvador) + maybe Cuba" hypothesis: jazz is **cool** not bebop; the
+samba is **Rio's own** (Salvador is samba's deeper root, hence Salvador -> Rio); Cuba
+is a **sibling** branch of Latin jazz, not a parent (no arc). Spec:
+[`curation/rio-de-janeiro-brazil.md`](curation/rio-de-janeiro-brazil.md).
+
 ## Recommended next
 
 **S5 (archive.org enrichment)** - native CC/PD HTML5 audio on marquee locales, with
